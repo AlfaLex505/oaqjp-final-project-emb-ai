@@ -17,12 +17,15 @@ def sent_analyzer():
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
     
-    output = 'For the given statement, the system response is '
-    for key, value in response.items():
-        if isinstance(value, float):
-            output += f'{key} : {value} '
-        else: 
-            output += f'.The dominant emotion is {value}'
+    if response['dominant_emotion'] == None:
+        output = 'Invalid text! Please try again!'
+    else:
+        output = 'For the given statement, the system response is '
+        for key, value in response.items():
+            if isinstance(value, float):
+                output += f'{key} : {value} '
+            else: 
+                output += f'.The dominant emotion is {value}'
 
     return output
 
